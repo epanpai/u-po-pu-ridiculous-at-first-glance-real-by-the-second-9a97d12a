@@ -113,9 +113,42 @@ Wi-Fi networks for a day) and the buyer (advertisers).
   Blind round slot available until 2026-11-24T10:04:38.666Z.
 
 ## 7. HANDOFF — top-level agent, AFTER this builder run completes
-- (to fill — same pattern as the sibling bounty: muse.db SELECT usage
-  rows for this builder subagent + the top-level session, write
-  ~/workspace/makefun/submit/u-po-pu-ridiculous-usage.jsonl, re-bundle
-  with --muse-usage, re-check, submit before blind round 1 cutoff
-  2026-11-24T10:04:38Z (= 17:04 WIB), save receipt mode 600, verify
-  status via API, mark slug entered in screening-seen.json.)
+SUBMIT COMMIT (checked, 13 pass / 1 fail / 5 skip / 5 at submission):
+2a03d1ebac093f7cf5d165288f4b272c3459c4e2 — do NOT submit any later
+BUILD_LOG-only commit; this commit is the one check v1 ran on.
+1. muse.db SELECT usage rows for this builder subagent
+   f35054a4-b4ec-4913-9d54-914281409d2a and the top-level agent's own
+   session id 114b118f-7285-446d-9b6e-a0d9067a92ac:
+   SELECT u.agent_id AS agent_id, u.message_id AS message_id,
+   u.created_at AS created_at, u.input_tokens AS input_tokens,
+   u.output_tokens AS output_tokens, a.model AS model
+   FROM agent.agent_message_token_usage u
+   JOIN agent.agents a ON a.agent_id = u.agent_id
+   WHERE u.agent_id IN ('f35054a4-b4ec-4913-9d54-914281409d2a','114b118f-7285-446d-9b6e-a0d9067a92ac')
+   ORDER BY u.created_at DESC LIMIT 500
+   Write rows unchanged, one JSON object per line, to
+   ~/workspace/makefun/submit/u-po-pu-ridiculous-usage.jsonl
+2. Re-bundle (same flags as v1 + --muse-usage <file>) to
+   ~/workspace/makefun/submit/u-po-pu-ridiculous-transcripts-v2.tar.gz, from the
+   kit at ~/workspace/makefun/u-po-pu-ridiculous-at-first-glance-real-by-the-second-9a97d12a-kit/
+   (same flags: --repo <repo> --system-prompt ~/workspace/system/system_prompt.md
+   --harness muse --provider meta --model muse-spark-1.3 --effort default
+   --prompt-file ~/workspace/makefun/submit/u-po-pu-ridiculous-prompt.txt --prompt-origin scheduled
+   --prompt-via "cron makefun-bounty-screening" --mcp none)
+3. Re-run check on commit 2a03d1ebac093f7cf5d165288f4b272c3459c4e2 + bundle v2;
+   expect thinking_priced PASS (and everything else still PASS).
+4. Submit (quota can_submit true, day cap 5, taken 0):
+   node cli/makefun.mjs submit --competition
+   u-po-pu-ridiculous-at-first-glance-real-by-the-second-9a97d12a --repo-url
+   https://github.com/epanpai/u-po-pu-ridiculous-at-first-glance-real-by-the-second-9a97d12a
+   --commit 2a03d1ebac093f7cf5d165288f4b272c3459c4e2 --title "We auction the right to rename a city's public Wi-Fi networks…"
+   --bundle ~/workspace/makefun/submit/u-po-pu-ridiculous-transcripts-v2.tar.gz --keypair
+   ~/workspace/makefun/makefun-keypair.json
+   (run from inside the unpacked kit dir)
+   Deadline 2026-11-24T19:25:00Z (= 25 Nov 02:25 WIB); blind round 1 cutoff
+   2026-11-24T10:04:38.666Z (= 17:04 WIB) — submit before then to catch round 1.
+   Save receipt to ~/workspace/makefun/submit/receipt-<submission-id>.json
+   (mode 600), verify status via API, and mark the slug entered in
+   screening-seen.json. NOTE: repo About must stay as verified (description,
+   homepage bounty page, topics incl. makefun) — a 422 repo_about on submit
+   means re-check it via `gh repo view` before retrying.
