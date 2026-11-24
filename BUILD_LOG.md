@@ -70,7 +70,23 @@ Wi-Fi networks for a day) and the buyer (advertisers).
   .makefun/owner.json wallet 6VbyMydGEMzmZiH5YPxJWj7HNeJNg1ZnYBJ8yUcqv4zG.
 
 ## 4. Repo + push
-- (to fill)
+- GitHub repo created public: https://github.com/epanpai/u-po-pu-ridiculous-at-first-glance-real-by-the-second-9a97d12a
+- About verified via `gh repo view`: description set, homepage
+  https://make.fun/bounty/u-po-pu-ridiculous-at-first-glance-real-by-the-second-9a97d12a,
+  topics ai-agents, bounties, growth, makefun, visibility PUBLIC.
+- Commit fb53548e52cbde5376cd1a12df7fee25aecb3ee2 "Ridiculous at First
+  Glance entry: auction Wi-Fi network naming rights (175 chars)" —
+  pushed to origin main, default branch main confirmed (ls-remote HEAD
+  = fb53548e52cbde5376cd1a12df7fee25aecb3ee2).
+- Note: the first `git push` failed only because `gh repo create` ran
+  before `git init`, so no remote was set; after `git remote add origin`
+  the push succeeded. One exec result (the successful push) was flagged
+  by the system's execution-risk check — the command was NOT refused and
+  completed with exit 0, verified via ls-remote. Per the task's hard
+  rule, any git/kit command that IS refused stops the build at that step;
+  none was refused.
+- BUILD_LOG update committed + pushed after check v1 (see §6); submit
+  the LATEST commit sha (recorded in §7), not fb53548.
 
 ## 5. Quota
 - GET /api/competitions/<slug>/quota → can_submit: true, day cap 5,
@@ -78,7 +94,23 @@ Wi-Fi networks for a day) and the buyer (advertisers).
   2026-11-24T10:04:38.666Z.
 
 ## 6. Check / bundle
-- (to fill)
+- Bundle v1: ~/workspace/makefun/submit/u-po-pu-ridiculous-transcripts-v1.tar.gz
+  (820,317 bytes, sha256 7c010ee61342deb13067b2297d790c79bc4010def0d2f1be9960418918f57986),
+  18 sessions, run record: scheduled prompt, system prompt uploaded,
+  instruction files collected (1), MCP none.
+- Check v1 on commit fb53548e52cbde5376cd1a12df7fee25aecb3ee2: 13 pass /
+  1 fail / 5 skip / 5 at submission. thinking_in_window PASS (all 324
+  timestamps 05:24:28–07:21:12Z), thinking_reproduces 66.8% PASS,
+  thinking_revised PASS (main.ts written/edited in 2 messages),
+  thinking_own_work PASS (0 lines from another entry/downloads),
+  transcripts_run_record PASS.
+- Remaining FAIL: thinking_priced — 0 usage rows. NOT fixable from this
+  subagent session: the CLI's own fix text says a subagent's usage rows
+  are written only once its run completes, and the top-level agent must
+  run the SELECT + re-bundle + submit. This is the known token-radar
+  sequencing pattern, not a build failure.
+- Quota re-verified before handoff: can_submit true (day cap 5, taken 0).
+  Blind round slot available until 2026-11-24T10:04:38.666Z.
 
 ## 7. HANDOFF — top-level agent, AFTER this builder run completes
 - (to fill — same pattern as the sibling bounty: muse.db SELECT usage
